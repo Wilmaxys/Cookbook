@@ -127,6 +127,11 @@
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
+    <None Include="Scripts\jquery.validate-vsdoc.js" />
+    <Content Include="Scripts\jquery.validate.js" />
+    <Content Include="Scripts\jquery.validate.min.js" />
+    <Content Include="Scripts\jquery.validate.unobtrusive.js" />
+    <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
     <Content Include="SQL\v100_initial.sql" />
     <Content Include="Web.config">
@@ -136,6 +141,7 @@
   <ItemGroup>
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\IngredientController.cs" />
     <Compile Include="Controllers\RecipeController.cs" />
     <Compile Include="CookBook.Context.cs">
       <AutoGen>True</AutoGen>
@@ -159,6 +165,10 @@
       <DependentUpon>CookBook.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Home\ApplicationUser.cs" />
+    <Compile Include="Models\Ingredient\EditIngredientModel.cs" />
+    <Compile Include="Models\Recipe\Abstract\RecipeModel.cs" />
+    <Compile Include="Models\Recipe\CreateRecipeModel.cs" />
+    <Compile Include="Models\Recipe\EditRecipeModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Recipe.cs">
       <DependentUpon>CookBook.tt</DependentUpon>
@@ -182,6 +192,9 @@
     <Content Include="Scripts\jquery-1.10.2.min.map" />
     <Content Include="Views\Recipe\Index.cshtml" />
     <Content Include="Views\Recipe\Edit.cshtml" />
+    <Content Include="Views\Recipe\Create.cshtml" />
+    <Content Include="Views\Ingredient\Index.cshtml" />
+    <Content Include="Views\Ingredient\Edit.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

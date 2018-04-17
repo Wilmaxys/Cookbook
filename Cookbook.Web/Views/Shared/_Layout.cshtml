@@ -21,7 +21,8 @@
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    @Html.ActionLink("Recettes","Index","Recipe")
+                    @Html.ActionLink("Recettes", "Index", "Recipe")
+                    @Html.ActionLink("Ingrédients", "Index", "Ingredient")
                 </ul>
             </div>
         </div>
@@ -37,5 +38,7 @@
 
     <script src="~/Scripts/jquery-1.10.2.min.js"></script>
     <script src="~/Scripts/bootstrap.min.js"></script>
+    <script src="~/Scripts/jquery.validate-vsdoc.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
 </body>
 </html>

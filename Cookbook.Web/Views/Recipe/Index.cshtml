@@ -18,15 +18,19 @@
         </tr>
     </thead>
     <tbody>
+
+        @Html.ActionLink("Créer", "Create", "Recipe", null , null)
+
         @foreach (var recipe in Model)
         {
-            <tr>
-                <td>@recipe.Id</td>
-                <td>@Html.ActionLink(recipe.Name, "Edit", "Recipe", new { id = recipe.Id }, null)</td>
-                <td>@recipe.Description</td>
-                <td>@recipe.Level</td>
-                <td>@recipe.CountofPeople</td>
-            </tr>
+        <tr>
+            <td>@recipe.Id</td>
+            <td>@Html.ActionLink(recipe.Name, "Edit", "Recipe", new { id = recipe.Id }, null)</td>
+            <td>@recipe.Description</td>
+            <td>@recipe.Level</td>
+            <td>@recipe.CountofPeople</td>
+            <td>@Html.ActionLink("Supr", "Delete", "Recipe", new { id = recipe.Id }, null)</td>
+        </tr>
         }
     </tbody>
     <tfoot>

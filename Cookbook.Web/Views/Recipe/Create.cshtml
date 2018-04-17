@@ -1,13 +1,10 @@
-﻿@model Cookbook.Web.Models.Recipe.EditRecipeModel
-
+﻿@model Cookbook.Web.Models.Recipe.CreateRecipeModel
 
 @{
-    /**/
-
-    ViewBag.Title = "Edit";
+    ViewBag.Title = "Create";
 }
 
-<h2>Edition de la recette @Model.Name</h2>
+<h2>Création de la recette @Model.Name</h2>
 
 @using (Html.BeginForm("Update", "Recipe"))
 {
@@ -41,4 +38,6 @@
         </div>
     </div>
 }
+
+
 
