@@ -29,6 +29,8 @@
             <td>@recipe.Description</td>
             <td>@recipe.Level</td>
             <td>@recipe.CountofPeople</td>
+            <td>@(recipe.CreatedBy == null ? " " : recipe.CreatedBy.FirstName)</td>
+            <td>@(recipe.UpdatedBy == null ? " " : recipe.CreatedBy.FirstName)</td>
             <td>@Html.ActionLink("Supr", "Delete", "Recipe", new { id = recipe.Id }, null)</td>
         </tr>
         }

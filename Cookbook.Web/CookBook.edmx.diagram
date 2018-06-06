@@ -6,12 +6,17 @@
     <edmx:Diagrams>
       <Diagram DiagramId="41b4d824900e4ce4b8bfc2c3fcad46af" Name="Diagram1">
         <EntityTypeShape EntityType="CookBookModel.Ingredient" Width="1.5" PointX="3" PointY="1" IsExpanded="true" />
-        <EntityTypeShape EntityType="CookBookModel.Recipe" Width="1.5" PointX="3" PointY="5" IsExpanded="true" />
+        <EntityTypeShape EntityType="CookBookModel.Recipe" Width="1.5" PointX="3" PointY="3.375" IsExpanded="true" />
         <EntityTypeShape EntityType="CookBookModel.RecipeIngredient" Width="1.5" PointX="5.25" PointY="0.875" IsExpanded="true" />
         <EntityTypeShape EntityType="CookBookModel.Unit" Width="1.5" PointX="0.75" PointY="1" IsExpanded="true" />
         <AssociationConnector Association="CookBookModel.fk_Ingredient_Unit" ManuallyRouted="false" />
         <AssociationConnector Association="CookBookModel.fk_RecipeIngredient_Ingredient" ManuallyRouted="false" />
         <AssociationConnector Association="CookBookModel.fk_RecipeIngredient_Recipe" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="CookBookModel.ApplicationRole" Width="1.5" PointX="0.75" PointY="6.75" />
+        <EntityTypeShape EntityType="CookBookModel.ApplicationUser" Width="1.5" PointX="0.75" PointY="3.5" />
+        <AssociationConnector Association="CookBookModel.fk_ApplicationUser_ApplicationRole" />
+        <AssociationConnector Association="CookBookModel.fk_Recipe_ApplicationUser_CreatedBy" />
+        <AssociationConnector Association="CookBookModel.fk_Recipe_ApplicationUser_UpdatedBy" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

@@ -4,7 +4,25 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="CookBookModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="CookBookModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="ApplicationRole">
+          <Key>
+            <PropertyRef Name="ApplicationRoleId" />
+          </Key>
+          <Property Name="ApplicationRoleId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Nom" Type="nvarchar" MaxLength="20" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ApplicationUser">
+          <Key>
+            <PropertyRef Name="ApplicationUserId" />
+          </Key>
+          <Property Name="ApplicationUserId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="LastName" Type="nvarchar" MaxLength="20" Nullable="false" />
+          <Property Name="FirstName" Type="nvarchar" MaxLength="20" Nullable="false" />
+          <Property Name="Email" Type="nvarchar" MaxLength="254" Nullable="false" />
+          <Property Name="Password" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="ApplicationRoleId" Type="int" Nullable="false" />
+        </EntityType>
         <EntityType Name="Ingredient">
           <Key>
             <PropertyRef Name="Id" />
@@ -23,6 +41,8 @@
           <Property Name="Level" Type="char" MaxLength="1" Nullable="false" />
           <Property Name="TimeToCook" Type="time" Precision="7" Nullable="false" />
           <Property Name="CountofPeople" Type="char" MaxLength="1" />
+          <Property Name="CreatedById" Type="int" />
+          <Property Name="UpdatedById" Type="int" />
         </EntityType>
         <EntityType Name="RecipeIngredient">
           <Key>
@@ -41,6 +61,20 @@
           <Property Name="ShortName" Type="nvarchar" MaxLength="10" Nullable="false" />
           <Property Name="LongName" Type="nvarchar" MaxLength="30" Nullable="false" />
         </EntityType>
+        <Association Name="fk_ApplicationUser_ApplicationRole">
+          <End Role="ApplicationRole" Type="Self.ApplicationRole" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="ApplicationUser" Type="Self.ApplicationUser" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ApplicationRole">
+              <PropertyRef Name="ApplicationRoleId" />
+            </Principal>
+            <Dependent Role="ApplicationUser">
+              <PropertyRef Name="ApplicationRoleId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="fk_Ingredient_Unit">
           <End Role="Unit" Type="Self.Unit" Multiplicity="1" />
           <End Role="Ingredient" Type="Self.Ingredient" Multiplicity="*" />
@@ -50,6 +84,30 @@
             </Principal>
             <Dependent Role="Ingredient">
               <PropertyRef Name="UnitId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_Recipe_ApplicationUser_CreatedBy">
+          <End Role="ApplicationUser" Type="Self.ApplicationUser" Multiplicity="0..1" />
+          <End Role="Recipe" Type="Self.Recipe" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ApplicationUser">
+              <PropertyRef Name="ApplicationUserId" />
+            </Principal>
+            <Dependent Role="Recipe">
+              <PropertyRef Name="CreatedById" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_Recipe_ApplicationUser_UpdatedBy">
+          <End Role="ApplicationUser" Type="Self.ApplicationUser" Multiplicity="0..1" />
+          <End Role="Recipe" Type="Self.Recipe" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ApplicationUser">
+              <PropertyRef Name="ApplicationUserId" />
+            </Principal>
+            <Dependent Role="Recipe">
+              <PropertyRef Name="UpdatedById" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -82,13 +140,27 @@
           </ReferentialConstraint>
         </Association>
         <EntityContainer Name="CookBookModelStoreContainer">
+          <EntitySet Name="ApplicationRole" EntityType="Self.ApplicationRole" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ApplicationUser" EntityType="Self.ApplicationUser" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Ingredient" EntityType="Self.Ingredient" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Recipe" EntityType="Self.Recipe" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="RecipeIngredient" EntityType="Self.RecipeIngredient" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Unit" EntityType="Self.Unit" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="fk_ApplicationUser_ApplicationRole" Association="Self.fk_ApplicationUser_ApplicationRole">
+            <End Role="ApplicationRole" EntitySet="ApplicationRole" />
+            <End Role="ApplicationUser" EntitySet="ApplicationUser" />
+          </AssociationSet>
           <AssociationSet Name="fk_Ingredient_Unit" Association="Self.fk_Ingredient_Unit">
             <End Role="Unit" EntitySet="Unit" />
             <End Role="Ingredient" EntitySet="Ingredient" />
+          </AssociationSet>
+          <AssociationSet Name="fk_Recipe_ApplicationUser_CreatedBy" Association="Self.fk_Recipe_ApplicationUser_CreatedBy">
+            <End Role="ApplicationUser" EntitySet="ApplicationUser" />
+            <End Role="Recipe" EntitySet="Recipe" />
+          </AssociationSet>
+          <AssociationSet Name="fk_Recipe_ApplicationUser_UpdatedBy" Association="Self.fk_Recipe_ApplicationUser_UpdatedBy">
+            <End Role="ApplicationUser" EntitySet="ApplicationUser" />
+            <End Role="Recipe" EntitySet="Recipe" />
           </AssociationSet>
           <AssociationSet Name="fk_RecipeIngredient_Ingredient" Association="Self.fk_RecipeIngredient_Ingredient">
             <End Role="Ingredient" EntitySet="Ingredient" />
@@ -99,8 +171,7 @@
             <End Role="RecipeIngredient" EntitySet="RecipeIngredient" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="CookBookModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -124,6 +195,8 @@
           <Property Name="TimeToCook" Type="Time" Nullable="false" Precision="7" />
           <Property Name="CountofPeople" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
           <NavigationProperty Name="RecipeIngredients" Relationship="Self.fk_RecipeIngredient_Recipe" FromRole="Recipe" ToRole="RecipeIngredient" />
+          <NavigationProperty Name="CreatedBy" Relationship="CookBookModel.fk_Recipe_ApplicationUser_CreatedBy" FromRole="Recipe" ToRole="ApplicationUser" />
+          <NavigationProperty Name="UpdatedBy" Relationship="CookBookModel.fk_Recipe_ApplicationUser_UpdatedBy" FromRole="Recipe" ToRole="ApplicationUser" />
         </EntityType>
         <EntityType Name="RecipeIngredient">
           <Key>
@@ -194,7 +267,56 @@
             <End Role="Recipe" EntitySet="Recipes" />
             <End Role="RecipeIngredient" EntitySet="RecipeIngredients" />
           </AssociationSet>
+          <EntitySet Name="ApplicationRoles" EntityType="CookBookModel.ApplicationRole" />
+          <EntitySet Name="ApplicationUsers" EntityType="CookBookModel.ApplicationUser" />
+          <AssociationSet Name="fk_ApplicationUser_ApplicationRole" Association="CookBookModel.fk_ApplicationUser_ApplicationRole">
+            <End Role="ApplicationRole" EntitySet="ApplicationRoles" />
+            <End Role="ApplicationUser" EntitySet="ApplicationUsers" />
+          </AssociationSet>
+          <AssociationSet Name="fk_Recipe_ApplicationUser_CreatedBy" Association="CookBookModel.fk_Recipe_ApplicationUser_CreatedBy">
+            <End Role="ApplicationUser" EntitySet="ApplicationUsers" />
+            <End Role="Recipe" EntitySet="Recipes" />
+          </AssociationSet>
+          <AssociationSet Name="fk_Recipe_ApplicationUser_UpdatedBy" Association="CookBookModel.fk_Recipe_ApplicationUser_UpdatedBy">
+            <End Role="ApplicationUser" EntitySet="ApplicationUsers" />
+            <End Role="Recipe" EntitySet="Recipes" />
+          </AssociationSet>
         </EntityContainer>
+        <EntityType Name="ApplicationRole">
+          <Key>
+            <PropertyRef Name="ApplicationRoleId" />
+          </Key>
+          <Property Name="ApplicationRoleId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Nom" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="ApplicationUsers" Relationship="CookBookModel.fk_ApplicationUser_ApplicationRole" FromRole="ApplicationRole" ToRole="ApplicationUser" />
+        </EntityType>
+        <EntityType Name="ApplicationUser">
+          <Key>
+            <PropertyRef Name="ApplicationUserId" />
+          </Key>
+          <Property Name="ApplicationUserId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="LastName" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="FirstName" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="Email" Type="String" Nullable="false" MaxLength="254" FixedLength="false" Unicode="true" />
+          <Property Name="Password" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="ApplicationRole" Relationship="CookBookModel.fk_ApplicationUser_ApplicationRole" FromRole="ApplicationUser" ToRole="ApplicationRole" />
+          <NavigationProperty Name="Recipes" Relationship="CookBookModel.fk_Recipe_ApplicationUser_CreatedBy" FromRole="ApplicationUser" ToRole="Recipe" />
+          <NavigationProperty Name="Recipes1" Relationship="CookBookModel.fk_Recipe_ApplicationUser_UpdatedBy" FromRole="ApplicationUser" ToRole="Recipe" />
+        </EntityType>
+        <Association Name="fk_ApplicationUser_ApplicationRole">
+          <End Type="CookBookModel.ApplicationRole" Role="ApplicationRole" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="CookBookModel.ApplicationUser" Role="ApplicationUser" Multiplicity="*" />
+        </Association>
+        <Association Name="fk_Recipe_ApplicationUser_CreatedBy">
+          <End Type="CookBookModel.ApplicationUser" Role="ApplicationUser" Multiplicity="0..1" />
+          <End Type="CookBookModel.Recipe" Role="Recipe" Multiplicity="*" />
+        </Association>
+        <Association Name="fk_Recipe_ApplicationUser_UpdatedBy">
+          <End Type="CookBookModel.ApplicationUser" Role="ApplicationUser" Multiplicity="0..1" />
+          <End Type="CookBookModel.Recipe" Role="Recipe" Multiplicity="*" />
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -246,6 +368,51 @@
             <EndProperty Name="Ingredient">
               <ScalarProperty Name="Id" ColumnName="Id" />
             </EndProperty>
+          </AssociationSetMapping>
+          <EntitySetMapping Name="ApplicationRoles">
+            <EntityTypeMapping TypeName="CookBookModel.ApplicationRole">
+              <MappingFragment StoreEntitySet="ApplicationRole">
+                <ScalarProperty Name="Nom" ColumnName="Nom" />
+                <ScalarProperty Name="ApplicationRoleId" ColumnName="ApplicationRoleId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ApplicationUsers">
+            <EntityTypeMapping TypeName="CookBookModel.ApplicationUser">
+              <MappingFragment StoreEntitySet="ApplicationUser">
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="ApplicationUserId" ColumnName="ApplicationUserId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <AssociationSetMapping Name="fk_ApplicationUser_ApplicationRole" TypeName="CookBookModel.fk_ApplicationUser_ApplicationRole" StoreEntitySet="ApplicationUser">
+            <EndProperty Name="ApplicationUser">
+              <ScalarProperty Name="ApplicationUserId" ColumnName="ApplicationUserId" />
+            </EndProperty>
+            <EndProperty Name="ApplicationRole">
+              <ScalarProperty Name="ApplicationRoleId" ColumnName="ApplicationRoleId" />
+            </EndProperty>
+          </AssociationSetMapping>
+          <AssociationSetMapping Name="fk_Recipe_ApplicationUser_CreatedBy" TypeName="CookBookModel.fk_Recipe_ApplicationUser_CreatedBy" StoreEntitySet="Recipe">
+            <EndProperty Name="Recipe">
+              <ScalarProperty Name="Id" ColumnName="Id" />
+            </EndProperty>
+            <EndProperty Name="ApplicationUser">
+              <ScalarProperty Name="ApplicationUserId" ColumnName="CreatedById" />
+            </EndProperty>
+            <Condition ColumnName="CreatedById" IsNull="false" />
+          </AssociationSetMapping>
+          <AssociationSetMapping Name="fk_Recipe_ApplicationUser_UpdatedBy" TypeName="CookBookModel.fk_Recipe_ApplicationUser_UpdatedBy" StoreEntitySet="Recipe">
+            <EndProperty Name="Recipe">
+              <ScalarProperty Name="Id" ColumnName="Id" />
+            </EndProperty>
+            <EndProperty Name="ApplicationUser">
+              <ScalarProperty Name="ApplicationUserId" ColumnName="UpdatedById" />
+            </EndProperty>
+            <Condition ColumnName="UpdatedById" IsNull="false" />
           </AssociationSetMapping>
         </EntityContainerMapping>
       </Mapping>

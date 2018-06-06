@@ -29,5 +29,7 @@ namespace Cookbook.Web
         public virtual DbSet<Recipe> Recipes { get; set; }
         public virtual DbSet<RecipeIngredient> RecipeIngredients { get; set; }
         public virtual DbSet<Unit> Units { get; set; }
+        public virtual DbSet<ApplicationRole> ApplicationRoles { get; set; }
+        public virtual DbSet<ApplicationUser> ApplicationUsers { get; set; }
     }
 }

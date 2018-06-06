@@ -5,10 +5,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.Data.Entity;
 
 namespace Cookbook.Web.Controllers
 {
-    public class RecipeController : Controller
+    [Authorize]
+    public class RecipeController : BaseController
     {
 
         // GET: Recipe
@@ -16,8 +18,9 @@ namespace Cookbook.Web.Controllers
         {
             using (var entities = new CookBookEntities1())
             {
-                var recipeQuery = entities.Recipes.OrderBy(recipe => recipe.Name);
-                var recipeList = recipeQuery.ToList();
+                var recipeList = entities.Recipes
+                    .Include(r => r.CreatedBy)
+                    .Include(r => r.UpdatedBy).OrderBy(recipe => recipe.Name).ToList();
                 return View(recipeList);
             }
         }
@@ -45,12 +48,8 @@ namespace Cookbook.Web.Controllers
         }
 
         [HttpPost]
-        public ActionResult Update(RecipeModel   vm)
+        public ActionResult Update(EditRecipeModel vm)
         {
-            if (vm is CreateRecipeModel)
-                vm = vm as CreateRecipeModel;
-            else
-                vm = vm as EditRecipeModel;
 
             if (ModelState.IsValid && vm != null)
             {

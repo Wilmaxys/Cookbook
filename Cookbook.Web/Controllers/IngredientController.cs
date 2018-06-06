@@ -6,7 +6,7 @@ using System.Web.Mvc;
 
 namespace Cookbook.Web.Controllers
 {
-    public class IngredientController : Controller
+    public class IngredientController : BaseController
     {
         // GET: Ingredient
         public ActionResult Index()

@@ -1,0 +1,29 @@
+﻿@{
+    ViewBag.Title = "Index";
+
+}
+
+@model Cookbook.Web.Models.Login.LoginModel
+
+
+
+
+<h2 class="page-header">Connexion</h2>
+
+@if (ViewBag.error != null)
+{
+    <div class="alert-info">
+
+        @ViewBag.error;
+
+    </div>
+}
+
+@using (Html.BeginForm("Index", "Login"))
+{
+    @Html.TextBoxFor(vm => vm.Email, new { @class = "form-control", placeholder = "Veuillez sasir l'email", type = "email" })
+    @Html.PasswordFor(vm => vm.Password, new { @class = "form-control", placeholder = "Mot de passe" })
+    @Html.HiddenFor(vm => vm.ReturnUrl)
+
+    <input type="submit" value="Connexion" class="btn btn-success" />
+}

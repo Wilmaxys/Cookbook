@@ -102,6 +102,7 @@
   <ItemGroup>
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\sidebar.css" />
     <Content Include="Content\Site.css" />
     <Content Include="CookBook.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
@@ -115,6 +116,7 @@
     </Content>
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
+    <Content Include="Scripts\bootstrap.bundle.min.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <EntityDeploy Include="CookBook.edmx">
@@ -128,21 +130,31 @@
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
+    <Content Include="Scripts\jquery.min.js" />
     <Content Include="Scripts\jquery.validate.js" />
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
     <Content Include="SQL\v100_initial.sql" />
+    <Content Include="SQL\v101_AddApplicationUser.sql" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ApplicationRole.cs">
+      <DependentUpon>CookBook.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ApplicationUser.cs">
+      <DependentUpon>CookBook.tt</DependentUpon>
+    </Compile>
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\IngredientController.cs" />
+    <Compile Include="Controllers\LoginController.cs" />
     <Compile Include="Controllers\RecipeController.cs" />
+    <Compile Include="Controllers\_BaseController.cs" />
     <Compile Include="CookBook.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -164,8 +176,9 @@
     <Compile Include="Ingredient.cs">
       <DependentUpon>CookBook.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\Home\ApplicationUser.cs" />
     <Compile Include="Models\Ingredient\EditIngredientModel.cs" />
+    <Compile Include="Models\Login\ApplicationUserModel.cs" />
+    <Compile Include="Models\Login\LoginModel.cs" />
     <Compile Include="Models\Recipe\Abstract\RecipeModel.cs" />
     <Compile Include="Models\Recipe\CreateRecipeModel.cs" />
     <Compile Include="Models\Recipe\EditRecipeModel.cs" />
@@ -195,6 +208,9 @@
     <Content Include="Views\Recipe\Create.cshtml" />
     <Content Include="Views\Ingredient\Index.cshtml" />
     <Content Include="Views\Ingredient\Edit.cshtml" />
+    <Content Include="Views\Login.cshtml" />
+    <Content Include="Views\Login\Index.cshtml" />
+    <Content Include="Views\Login\Create.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -204,6 +220,8 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Content\img\" />
+    <Folder Include="Models\Home\" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />

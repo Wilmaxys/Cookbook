@@ -12,24 +12,25 @@ namespace Cookbook.Web
     using System;
     using System.Collections.Generic;
     
-    public partial class Recipe
+    public partial class ApplicationUser
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Recipe()
+        public ApplicationUser()
         {
-            this.RecipeIngredients = new HashSet<RecipeIngredient>();
+            this.Recipes = new HashSet<Recipe>();
+            this.Recipes1 = new HashSet<Recipe>();
         }
     
-        public int Id { get; set; }
-        public string Name { get; set; }
-        public string Description { get; set; }
-        public string Level { get; set; }
-        public System.TimeSpan TimeToCook { get; set; }
-        public string CountofPeople { get; set; }
+        public int ApplicationUserId { get; set; }
+        public string LastName { get; set; }
+        public string FirstName { get; set; }
+        public string Email { get; set; }
+        public string Password { get; set; }
     
+        public virtual ApplicationRole ApplicationRole { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<RecipeIngredient> RecipeIngredients { get; set; }
-        public virtual ApplicationUser CreatedBy { get; set; }
-        public virtual ApplicationUser UpdatedBy { get; set; }
+        public virtual ICollection<Recipe> Recipes { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Recipe> Recipes1 { get; set; }
     }
 }

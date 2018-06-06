@@ -1,44 +1,117 @@
-﻿<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@ViewBag.Title - My ASP.NET Application</title>
-    <link href="~/Content/Site.css" rel="stylesheet" type="text/css" />
-    <link href="~/Content/bootstrap.min.css" rel="stylesheet" type="text/css" />
-    <script src="~/Scripts/modernizr-2.6.2.js"></script>
-</head>
-<body>
-    <div class="navbar navbar-inverse navbar-fixed-top">
-        <div class="container">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                @Html.ActionLink("Application name", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
-            </div>
-            <div class="navbar-collapse collapse">
-                <ul class="nav navbar-nav">
-                    @Html.ActionLink("Recettes", "Index", "Recipe")
-                    @Html.ActionLink("Ingrédients", "Index", "Ingredient")
-                </ul>
+﻿@*<!DOCTYPE html>
+    <html>
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>@ViewBag.Title - My ASP.NET Application</title>
+        <link href="~/Content/Site.css" rel="stylesheet" type="text/css" />
+        <link href="~/Content/bootstrap.min.css" rel="stylesheet" type="text/css" />
+        <script src="~/Scripts/modernizr-2.6.2.js"></script>
+    </head>
+    <body>
+        <div class="navbar navbar-inverse navbar-fixed-top">
+            <div class="container">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    @Html.ActionLink("Application name", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+                </div>
+                <div class="navbar-collapse collapse">
+                    <ul class="nav navbar-nav">
+                        @Html.ActionLink("Recettes", "Index", "Recipe", null, new { @class = "btn  btn-primary" })
+                        @Html.ActionLink("Ingrédients", "Index", "Ingredient", null, new { @class = "btn  btn-primary" })
+                        @if (!User.Identity.IsAuthenticated)
+                        {
+                                        @Html.ActionLink("Connexion", "Index", "Login", null, new { @class = "btn  btn-primary" })
+
+                                        @Html.ActionLink("Inscription", "Create", "Login", null, new { @class = "btn  btn-primary" })
+                        }
+                        else
+                        {
+                                        @Html.ActionLink("Déconnexion", "SignOut", "Login", null, new { @class = "btn  btn-danger" })
+                        }
+                    </ul>
+                </div>
             </div>
         </div>
-    </div>
 
-    <div class="container body-content">
-        @RenderBody()
-        <hr />
-        <footer>
-            <p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
-        </footer>
-    </div>
+        <div class="container body-content">
+            @RenderBody()
+            <hr />
+            <footer>
+                <p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
+            </footer>
+        </div>
 
-    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
-    <script src="~/Scripts/bootstrap.min.js"></script>
-    <script src="~/Scripts/jquery.validate-vsdoc.js"></script>
-    <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+        <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+        <script src="~/Scripts/bootstrap.min.js"></script>
+        <script src="~/Scripts/jquery.validate-vsdoc.js"></script>
+        <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+    </body>
+    </html>*@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>Simple Sidebar - Start Bootstrap Template</title>
+    <!-- Bootstrap core CSS -->
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet">
+    <!-- Custom styles for this template -->
+    <link href="~/Content/sidebar.css" rel="stylesheet">
+</head>
+<body>
+    <div id="wrapper" class="toggled">
+        <!-- Sidebar -->
+        <div id="sidebar-wrapper">
+            <img src="~/Content/img/logo.png" class="logo" />
+            <ul class="sidebar-nav">
+                <li>
+                    @Html.ActionLink("Recettes", "Index", "Recipe")
+                </li>
+                <li>
+                    @Html.ActionLink("Ingrédients", "Index", "Ingredient")
+                </li>
+                @if (!User.Identity.IsAuthenticated)
+                {
+                    <li>
+                        @Html.ActionLink("Connexion", "Index", "Login")
+                    </li>
+                    <li>
+                        @Html.ActionLink("Inscription", "Create", "Login")
+                    </li>
+                }
+                else
+                {
+                    <li>
+                        @Html.ActionLink("Déconnexion", "SignOut", "Login")
+                    </li>
+                }
+            </ul>
+        </div>
+        <!-- /#sidebar-wrapper -->
+        <!-- Page Content -->
+
+        <div class="nav-top col-md-12"></div>
+
+        <div id="page-content-wrapper">
+            <div class="container-fluid">
+
+                @RenderBody()
+
+            </div>
+        </div>
+        <!-- /#page-content-wrapper -->
+    </div>
+    <!-- /#wrapper -->
+    <!-- Bootstrap core JavaScript -->
+    <script src="~/Scripts/jquery.min.js"></script>
+    <script src="~/Scripts/bootstrap.bundle.min.js"></script>
 </body>
 </html>
