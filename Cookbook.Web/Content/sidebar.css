@@ -28,7 +28,7 @@ body {
     height: 100%;
     margin-left: -250px;
     overflow-y: auto;
-    background: #EC644B;
+    background: #192a56;
     -webkit-transition: all 0.5s ease;
     -moz-transition: all 0.5s ease;
     -o-transition: all 0.5s ease;
@@ -71,7 +71,7 @@ body {
             display: block;
             text-decoration: none;
             color: #FFF;
-            text-shadow: 1px 1px 0px #96281B;
+            text-shadow: 1px 1px 0px #273c75;
         }
 
             .sidebar-nav li a:hover {
@@ -128,13 +128,37 @@ body {
 }
 
 .logo {
-    width: 105px;
-    margin-top: 10px;
-    margin-left: 5px;
+    text-align: center;
+}
+.logo img {
+    width: 150px;
 }
 
 .nav-top {
     height: 75px;
-    background: #EF836E;
+    background: #273c75;
     /*box-shadow:0px 1px 0px #96281B;*/
+}
+
+.box {
+    border: 1px solid #192a56;
+    padding: 50px;
+    margin: 50px;
+    background-color: whitesmoke;
+}
+
+.title {
+    display: inline-block;
+    color: #353b48;
+}
+
+.right {
+    float: right;
+}
+.champ {
+    border-bottom: 1px dotted #34495e;
+    color: #353b48;
+}
+.myLabel {
+    color: #353b48;
 }

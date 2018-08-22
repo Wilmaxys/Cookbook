@@ -1,46 +1,89 @@
-﻿@model IEnumerable<Cookbook.Web.Recipe>
-
-
-@{
+﻿@{
     ViewBag.Title = "Index";
 }
 
-<h2>Liste des recettes</h2>
+<div class="row">
+    <div class="col-sm-4 col-xs-12" ng-controller="recipeListCtrl" ng-init="init()">
+        <div class="box">
+                <div class="form-group">
+                    <!-- Sr Only masque le helptext -->
+                    <label for="newRecipeName" class="sr-only">Nom de la recette</label>
+                    <input type="text" class="form-control" id="newRecipeName" ng-model="newRecipeName" my-enter="addRecipe(newRecipeName); newRecipeName='';"/>
+                    <button type="button" ng-click="addRecipe(newRecipeName); newRecipeName='';" class="btn btn-warning" ng-disabled="newRecipeName === '' || newRecipeName === undefined">
+                        <span class="glyphicon glyphicon-plus"></span>
+                        &nbsp;Ajouter
+                    </button>
+                </div>
 
-<table>
-    <thead>
-        <tr>
-            <td>#</td>
-            <td>Nom</td>
-            <td>Description</td>
-            <td>Difficulté</td>
-            <td>Parts</td>
-        </tr>
-    </thead>
-    <tbody>
+                <ul class="list-group">
+                    <li class="list-group-item" ng-repeat="recipe in recipes"><p class="title" ng-click="changeRecipe(recipe);">{{recipe.Name}}</p>&nbsp;&nbsp;<button class="btn btn-danger right" type="button" ng-click="deleteRecipe(recipe)"><i class="glyphicon glyphicon-remove-sign"></i></button></li>
+                </ul>
+        </div>
+    </div>
+    <div class="col-sm-8 col-xs-12" ng-controller="recipeDetailCtrl">
+        <div class="box" ng-if="selectedRecipe != undefined">
 
-        @Html.ActionLink("Créer", "Create", "Recipe", null , null)
 
-        @foreach (var recipe in Model)
-        {
-        <tr>
-            <td>@recipe.Id</td>
-            <td>@Html.ActionLink(recipe.Name, "Edit", "Recipe", new { id = recipe.Id }, null)</td>
-            <td>@recipe.Description</td>
-            <td>@recipe.Level</td>
-            <td>@recipe.CountofPeople</td>
-            <td>@(recipe.CreatedBy == null ? " " : recipe.CreatedBy.FirstName)</td>
-            <td>@(recipe.UpdatedBy == null ? " " : recipe.CreatedBy.FirstName)</td>
-            <td>@Html.ActionLink("Supr", "Delete", "Recipe", new { id = recipe.Id }, null)</td>
-        </tr>
-        }
-    </tbody>
-    <tfoot>
-        <tr>
-            <td colspan="5">
-                @Model.Count() recette@(Model.Count() > 1 ? "s" : string.Empty)
-            </td>
-        </tr>
-    </tfoot>
-</table>
+            <div class="form-group row">
+                <label for="Name" class="col-sm-3 col-form-label myLabel">Nom de la recette</label>
+                <span ng-hide="currentField == 'Name'" class="col-sm-9 champ" ng-click="setField('Name')">{{selectedRecipe.Name}}</span>
+                <div class="col-sm-9">
+                    <input ng-show="currentField == 'Name'" type="text" class="form-control-plaintext" id="Name" ng-model="selectedRecipe.Name" ng-blur="editRecipe()" />
+                </div>
+            </div>
 
+            <div class="form-group row">
+                <label for="Description" class="col-sm-3 col-form-label myLabel">Description</label>
+                <span ng-hide="currentField == 'Description'" class="col-sm-9 champ" ng-click="setField('Description')">{{selectedRecipe.Description}}</span>
+                <div class="col-sm-9">
+                    <input ng-show="currentField == 'Description'" type="text" class="form-control-plaintext" id="Description" ng-model="selectedRecipe.Description" ng-blur="editRecipe()" />
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label for="TimeToCook" class="col-sm-3 col-form-label myLabel">TimeToCook</label>
+                <span ng-hide="currentField == 'TimeToCook'" class="col-sm-9 champ" ng-click="setField('TimeToCook')">{{selectedRecipe.TimeToCook}}</span>
+                <div class="col-sm-9">
+                    <input ng-show="currentField == 'TimeToCook'" type="text" class="form-control-plaintext" id="TimeToCook" ng-model="selectedRecipe.TimeToCook" ng-blur="editRecipe()" />
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label for="Level" class="col-sm-3 col-form-label myLabel">Level</label>
+                <span ng-hide="currentField == 'Level'" class="col-sm-9 champ" ng-click="setField('Level')">{{selectedRecipe.Level}}</span>
+                <div class="col-sm-9">
+                    <input ng-show="currentField == 'Level'" type="text" class="form-control-plaintext" id="Level" ng-model="selectedRecipe.Level" ng-blur="editRecipe()" />
+                </div>
+            </div>
+
+
+            <div class="form-group row">
+                <label for="CountOfPeople" class="col-sm-3 col-form-label myLabel">CountOfPeople</label>
+                <span ng-hide="currentField == 'CountOfPeople'" class="col-sm-9 champ" ng-click="setField('CountOfPeople')">{{selectedRecipe.CountOfPeople}}</span>
+                <div class="col-sm-9">
+                    <input ng-show="currentField == 'CountOfPeople'" type="text" class="form-control-plaintext" id="CountOfPeople" ng-model="selectedRecipe.CountOfPeople" ng-blur="editRecipe()" />
+                </div>
+            </div>
+
+            <ul class="list-group">
+                <li class="list-group-item hei" ng-repeat="ingredient in listIngredient">{{ingredient.Name}}<button class="btn btn-danger right" type="button" ng-click="DeleteIngredient(ingredient)"><i class="glyphicon glyphicon-remove-sign"></i></button></li>
+            </ul>
+            <br /><br />
+            <div class="col-sm-12">
+                <div class="col-sm-11">
+                    <input type="text" ng-model="asyncSelected" placeholder="Ingrédients" uib-typeahead="ingredients as ingredients.Name for ingredients in getLocation($viewValue)" typeahead-loading="loadingLocations" typeahead-no-results="noResults" class="form-control">
+                    <i ng-show="loadingLocations" class="glyphicon glyphicon-refresh"></i>
+                    <div ng-show="noResults">
+                        <i class="glyphicon glyphicon-remove"></i> Pas de résultat
+                    </div>
+                </div>
+                <div class="col-sm-1">
+                    <button type="button" class="btn btn-success" ng-click="AddIngredientRecipes(asyncSelected)"><i class="glyphicon glyphicon-plus-sign"></i></button>
+                </div>
+
+            </div>
+
+
+        </div>
+    </div>
+</div>

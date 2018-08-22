@@ -6,16 +6,14 @@ using System.Web.Mvc;
 
 namespace Cookbook.Web.Controllers
 {
-    public class HomeController : BaseController
+    [Authorize(Roles = "Admin")]
+    public class AdminController : Controller
     {
-        // GET: Home
         public ActionResult Index()
         {
-            //Bag
-            ViewBag.MonMessage = "Bienvenue sur notre site.";
-
-
             return View();
         }
     }
+
+
 }

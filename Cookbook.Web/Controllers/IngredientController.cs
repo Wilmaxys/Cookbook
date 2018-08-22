@@ -6,6 +6,7 @@ using System.Web.Mvc;
 
 namespace Cookbook.Web.Controllers
 {
+    [Authorize]
     public class IngredientController : BaseController
     {
         // GET: Ingredient

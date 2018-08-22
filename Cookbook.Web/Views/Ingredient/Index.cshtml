@@ -1,39 +1,33 @@
-﻿@model IEnumerable<Cookbook.Web.Ingredient>
-
+﻿
 
 @{
     ViewBag.Title = "Index";
 }
 
-<h2>Liste des recettes</h2>
+<div class="row">
+    <div class="col-sm-4 col-xs-12" ng-controller="ingredientListCtrl" ng-init="init()">
+        <div class="box">
+            <div class="form-group">
+                <!-- Sr Only masque le helptext -->
+                @*<label for="newRecipeName" class="sr-only">Nom de la recette</label>
+                <input type="text" class="form-control" id="newRecipeName" ng-model="newIngredientName" my-enter="" />**@
+                    <input type="text" ng-model="asyncSelected" placeholder="Ingrédients" uib-typeahead="ingredients as ingredients.product_name for ingredients in getLocation($viewValue)" typeahead-loading="loadingLocations" typeahead-no-results="noResults" class="form-control">
+                    <i ng-show="loadingLocations" class="glyphicon glyphicon-refresh"></i>
+                    <div ng-show="noResults">
+                        <i class="glyphicon glyphicon-remove"></i> Pas de résultat
+                    </div>
+                <button type="button" ng-click="addIngredients(asyncSelected.product_name); asyncSelected = '';" class="btn btn-warning" ng-disabled="asyncSelected == undifined || asyncSelected == ''">
+                @*<button type="button" ng-click="getLocation('coke')" class="btn btn-warning" ng-disabled="newIngredientName == undifined || newIngredientName == ''">*@
+                    <span class="glyphicon glyphicon-plus"></span>
+                    &nbsp;Ajouter
+                </button>
+            </div>
 
-<table>
-    <thead>
-        <tr>
-            <td>#</td>
-            <td>Nom</td>
-            <td>Description</td>
-        </tr>
-    </thead>
-    <tbody>
+            <ul class="list-group">
+                <li class="list-group-item" ng-repeat="ingredient in ingredients"><p class="title" ng-click="">{{ingredient.Name}}</p>&nbsp;&nbsp;<button class="btn btn-danger right" type="button" ng-click="deleteIngredients(ingredient)"><i class="glyphicon glyphicon-remove-sign"></i></button></li>
+            </ul>
 
-        @*@Html.ActionLink("Créer", "Create", "Recipe", null, null)*@
 
-        @foreach (var ingredient in Model)
-        {
-            <tr>
-                <td>@ingredient.Id</td>
-                <td>@ingredient.Name</td>
-                <td>@ingredient.Unit.LongName</td>
-            </tr>
-        }
-    </tbody>
-    <tfoot>
-        <tr>
-            <td colspan="5">
-               @* @Model.Count() recette@(Model.Count() > 1 ? "s" : string.Empty)*@
-            </td>
-        </tr>
-    </tfoot>
-</table>
-
+        </div>
+    </div>
+</div>

@@ -1,59 +1,4 @@
-﻿@*<!DOCTYPE html>
-    <html>
-    <head>
-        <meta charset="utf-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>@ViewBag.Title - My ASP.NET Application</title>
-        <link href="~/Content/Site.css" rel="stylesheet" type="text/css" />
-        <link href="~/Content/bootstrap.min.css" rel="stylesheet" type="text/css" />
-        <script src="~/Scripts/modernizr-2.6.2.js"></script>
-    </head>
-    <body>
-        <div class="navbar navbar-inverse navbar-fixed-top">
-            <div class="container">
-                <div class="navbar-header">
-                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                    </button>
-                    @Html.ActionLink("Application name", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
-                </div>
-                <div class="navbar-collapse collapse">
-                    <ul class="nav navbar-nav">
-                        @Html.ActionLink("Recettes", "Index", "Recipe", null, new { @class = "btn  btn-primary" })
-                        @Html.ActionLink("Ingrédients", "Index", "Ingredient", null, new { @class = "btn  btn-primary" })
-                        @if (!User.Identity.IsAuthenticated)
-                        {
-                                        @Html.ActionLink("Connexion", "Index", "Login", null, new { @class = "btn  btn-primary" })
-
-                                        @Html.ActionLink("Inscription", "Create", "Login", null, new { @class = "btn  btn-primary" })
-                        }
-                        else
-                        {
-                                        @Html.ActionLink("Déconnexion", "SignOut", "Login", null, new { @class = "btn  btn-danger" })
-                        }
-                    </ul>
-                </div>
-            </div>
-        </div>
-
-        <div class="container body-content">
-            @RenderBody()
-            <hr />
-            <footer>
-                <p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
-            </footer>
-        </div>
-
-        <script src="~/Scripts/jquery-1.10.2.min.js"></script>
-        <script src="~/Scripts/bootstrap.min.js"></script>
-        <script src="~/Scripts/jquery.validate-vsdoc.js"></script>
-        <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
-    </body>
-    </html>*@
-
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8">
@@ -64,54 +9,108 @@
     <!-- Bootstrap core CSS -->
     <link href="~/Content/bootstrap.min.css" rel="stylesheet">
     <!-- Custom styles for this template -->
-    <link href="~/Content/sidebar.css" rel="stylesheet">
+    @*<link href="~/Content/sidebar.css" rel="stylesheet">*@
+    <link href="~/Content/style.css" rel="stylesheet">
+    <script src="~/Content/angular.js"></script>
+    <script src="~/Content/src/cookbook.module.js"></script>
+    <script src="~/Content/src/cookbook.contants.js"></script>
+    <script src="~/Content/src/cookbook.config.js"></script>
+    <script src="~/Content/src/ui-bootstrap-tpls-2.5.0.min.js"></script>
+    <script src="~/Content/src/Directives/myEnter.js"></script>
+    <script src="~/Content/src/Services/Recipe.service.js"></script>
+    <script src="~/Content/src/Services/Admin.service.js"></script>
+    <script src="~/Content/src/Services/Ingredient.service.js"></script>
+    <script src="~/Content/src/Controllers/Menu.controller.js"></script>
+    <script src="~/Content/src/Controllers/recipeDetail.controller.js"></script>
+    <script src="~/Content/src/Controllers/recipeList.controller.js"></script>
+    <script src="~/Content/src/Controllers/ingredientList.controller.js"></script>
+    <script src="~/Content/src/Controllers/adminList.controller.js"></script>
+    <script src="~/Content/src/Controllers/adminDetail.controller.js"></script>
 </head>
-<body>
-    <div id="wrapper" class="toggled">
-        <!-- Sidebar -->
-        <div id="sidebar-wrapper">
-            <img src="~/Content/img/logo.png" class="logo" />
-            <ul class="sidebar-nav">
-                <li>
-                    @Html.ActionLink("Recettes", "Index", "Recipe")
-                </li>
-                <li>
-                    @Html.ActionLink("Ingrédients", "Index", "Ingredient")
-                </li>
-                @if (!User.Identity.IsAuthenticated)
-                {
+    <body ng-app="cookbook">
+            <!-- Sidebar -->
+        <div  ng-controller="MenuCtrl" ng-init="init();">
+            <div class="sidebar" ng-class="{'sidebarcollapse': hide}">
+
+                <div class="logo" ng-hide="hide">
+                    <img src="~/Content/img/logo.png" />
+                </div>
+
+
+
+                <ul class="sidebar-nav">
+
                     <li>
-                        @Html.ActionLink("Connexion", "Index", "Login")
+                        <span class="expend" ng-click="setHide();">
+                            <span class="glyphicon" ng-class="{'glyphicon-plus': hide,'glyphicon-minus': !hide}"></span><span ng-hide="hide">&nbsp;Rétracter</span>
+                        </span>
                     </li>
-                    <li>
-                        @Html.ActionLink("Inscription", "Create", "Login")
-                    </li>
-                }
-                else
-                {
-                    <li>
-                        @Html.ActionLink("Déconnexion", "SignOut", "Login")
-                    </li>
-                }
-            </ul>
-        </div>
-        <!-- /#sidebar-wrapper -->
-        <!-- Page Content -->
 
-        <div class="nav-top col-md-12"></div>
+                    @if (User.IsInRole("Admin"))
+                    {
+                        <li>
+                            
+                            @*<span ng-hide="hide == true">@Html.ActionLink("Admin", "Index", "Admin")</span>*@
+                            <a class="linkA" href="~/admin/index"><i class="glyphicon glyphicon-cog"></i><span ng-hide="hide">&nbsp;Admin</span></a>
+                        </li>
+                    }
 
-        <div id="page-content-wrapper">
-            <div class="container-fluid">
+                    @if (!User.Identity.IsAuthenticated)
+                    {
+                        <li>
+                            @*<i class="glyphicon glyphicon glyphicon-off"></i>
+                            <span ng-hide="hide == true">@Html.ActionLink("Connexion", "Index", "Login")</span>*@
+                            <a class="linkA" href="~/Login/index"><i class="glyphicon glyphicon-off"></i><span ng-hide="hide">&nbsp;Connexion</span></a>
 
-                @RenderBody()
+                        </li>
+                        <li>
+                            @*<i class="glyphicon glyphicon-user"></i>
+                            <span ng-hide="hide == true">@Html.ActionLink("Inscription", "Create", "Login")</span>*@
+                            <a class="linkA" href="~/Login/Create"><i class="glyphicon glyphicon-user"></i><span ng-hide="hide">&nbsp;Inscription</span></a>
+                        </li>
+                    }
+                    else
+                    {
 
+                        <li>
+                            @*<i class="glyphicon glyphicon glyphicon-cutlery"></i>
+                            <span ng-hide="hide == true">@Html.ActionLink("Recettes", "Index", "Recipe")</span>*@
+                            <a class="linkA" href="~/Recipe/Index"><i class="glyphicon glyphicon-cutlery"></i><span ng-hide="hide">&nbsp;Recettes</span></a>
+                        </li>
+
+
+                        <li>
+                            @*<i class="glyphicon glyphicon-shopping-cart"></i>
+                            <span ng-hide="hide == true">@Html.ActionLink("Ingrédients", "Index", "Ingredient")</span>*@
+                            <a class="linkA" href="~/Ingredient/Index"><i class="glyphicon glyphicon-shopping-cart"></i><span ng-hide="hide">&nbsp;Ingrédients</span></a>
+                        </li>
+
+
+
+                        <li>
+                            @*<i class="glyphicon glyphicon glyphicon-off"></i>
+                            <span ng-hide="hide == true">@Html.ActionLink("Déconnexion", "SignOut", "Login")</span>*@
+                            <a class="linkA" href="~/Login/SignOut"><i class="glyphicon glyphicon-off"></i><span ng-hide="hide">&nbsp;Sign Out</span></a>
+                        </li>
+                    }
+                </ul>
             </div>
         </div>
-        <!-- /#page-content-wrapper -->
-    </div>
-    <!-- /#wrapper -->
-    <!-- Bootstrap core JavaScript -->
-    <script src="~/Scripts/jquery.min.js"></script>
-    <script src="~/Scripts/bootstrap.bundle.min.js"></script>
-</body>
+            <!-- /#sidebar-wrapper -->
+            <!-- Page Content -->
+            <div id="test" class="contain">
+                <div class="nav">@User.Identity.Name</div>
+                <div class="core">
+
+                    @RenderBody()
+
+                </div>
+            </div>
+
+            <!-- /#page-content-wrapper -->
+        <!-- /#wrapper -->
+        <!-- Bootstrap core JavaScript -->
+        <script src="~/Scripts/jquery.min.js"></script>
+        <script src="~/Scripts/bootstrap.bundle.min.js"></script>
+    </body>
 </html>

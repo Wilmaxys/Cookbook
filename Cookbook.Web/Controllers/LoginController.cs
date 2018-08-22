@@ -1,7 +1,10 @@
-﻿using Cookbook.Web.Models.Login;
+﻿using Cookbook.API.Models.Login;
+using Cookbook.Web.Models.Login;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
@@ -10,6 +13,7 @@ namespace Cookbook.Web.Controllers
 {
     public class LoginController : BaseController
     {
+
         // GET: Login
         public ActionResult Index(string returnUrl)
         {
@@ -28,9 +32,26 @@ namespace Cookbook.Web.Controllers
 
                 using (var entities = new CookBookEntities1())
                 {
-                    if (ModelState.IsValid && entities.ApplicationUsers.SingleOrDefault(obj => obj.Email == vm.Email && obj.Password == vm.Password) != null)
+                    if (ModelState.IsValid)
                     {
-                        userExists = true;
+                        HttpResponseMessage response = HttpClient.PostAsJsonAsync("/api/login", vm).Result;
+
+                        if (response.IsSuccessStatusCode)
+                        {
+                            var loginJson = response.Content.ReadAsStringAsync().Result;
+
+                            var login = JsonConvert.DeserializeObject<UserResponseDTO>(loginJson);
+
+                            if (login.isValid == true)
+                            {
+                                userExists = true;
+                            }
+                        }
+                        else
+                        {
+                            //TODO: afficher erreur
+                        }
+                        
                     }
                 }
 

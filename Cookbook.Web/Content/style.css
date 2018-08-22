@@ -1,0 +1,158 @@
+body{
+    margin: 0;
+    padding: 0;
+}
+
+.sidebar {
+    position: fixed;
+    width: 15%;
+    margin: 0;
+    padding: 0;
+    background-color: #192a56;
+    height: 100%;
+    float: left;
+    color: white;
+}
+.sidebarcollapse {
+    position: fixed;
+    width: 3% !important;
+    margin: 0;
+    padding: 0;
+    background-color: #192a56;
+    height: 100%;
+    float: left;
+    color: white;
+}
+.sidebar a {
+    text-decoration: none;
+    color: white;
+    display: block;
+    text-align: center;
+    padding: 20px;
+}
+.expend {
+    text-decoration: none;
+    color: white;
+    display: block;
+    text-align: center;
+    padding: 20px;
+}
+    .sidebar li {
+        /*padding: 20px;*/
+    }
+    .sidebar li:hover {
+        color: #fff;
+        background: rgba(255, 255, 255, 0.2);
+    }
+  .sidebar ul{
+      list-style:none;
+      padding:0;
+  }
+.nav {
+    background-color: #273c75;
+    height: 50px;
+    padding: 10px;
+    color: white;
+    font-weight: bold;
+}
+.contain{
+    float:right;
+    width:85%;
+}
+
+.containcollapse {
+    float: right;
+    width: 97% !important;
+}
+
+
+.core{
+    margin:10px;
+}
+.Menu{
+    color:white;
+    padding: 10px;
+    height: 30px;
+}
+.Menu:hover{
+    background-color: #60a3bc;
+}
+/*.tpForm{
+    border: 1px solid #4a69bd;
+    padding: 15px;
+    background-color: #6a89cc;
+    color:white;
+    margin-bottom: 30px;
+}
+
+.tpFormError{
+    border: 1px solid #eb2f06;
+    padding: 10px;
+    background-color: #e55039;
+    color:white;
+    margin-bottom: 10px;
+}
+
+.tpFormElement{
+    border: 1px solid #78e08f;
+    padding: 10px;
+    background-color: #b8e994;
+    color:black;
+    margin-bottom: 10px;
+}
+
+.labelNo{
+    text-align: right;
+    width:125px;
+    display: inline-block;
+    margin-bottom: 10px;
+    vertical-align: top;
+}
+.button{
+    margin:10px;
+}
+.thanks{
+    border: 1px solid black;
+    margin: 0 auto;
+    display: block;
+    box-shadow: 1px 1px 12px #555;
+}*/
+.logo {
+    text-align: center;
+}
+
+.logo img {
+    width: 150px;
+}
+
+.box {
+    border: 1px solid #192a56;
+    padding: 50px;
+    margin: 50px;
+    background-color: whitesmoke;
+}
+
+.title {
+    display: inline-block;
+    color: #353b48;
+}
+
+.right {
+    float: right;
+}
+
+.champ {
+    border-bottom: 1px dotted #34495e;
+    color: #353b48;
+}
+
+.myLabel {
+    color: #353b48;
+}
+
+.box ul{
+    margin:0;
+}
+.hei{
+    height: 60px;
+}

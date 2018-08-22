@@ -1,0 +1,31 @@
+﻿
+@{
+    ViewBag.Title = "index";
+}
+
+<div class="row">
+    <div class="col-sm-4 col-xs-12" ng-controller="adminListCtrl" ng-init="init()">
+        <div class="box">
+            @*<div class="form-group">
+                    <label for="newRecipeName" class="sr-only">Nom de la recette</label>
+                    <input type="text" class="form-control" id="newRecipeName" ng-model="newIngredientName" my-enter="" />
+                    <button type="button" ng-click="addIngredients(newIngredientName); newIngredientName = '';" class="btn btn-warning" ng-disabled="newIngredientName == undifined || newIngredientName == ''">
+                        <button type="button" ng-click="getLocation('test')" class="btn btn-warning" ng-disabled="newIngredientName == undifined || newIngredientName == ''">
+                        <span class="glyphicon glyphicon-plus"></span>
+                        &nbsp;Ajouter
+                    </button>
+                </div>*@
+
+            <ul class="list-group">
+                <li class="list-group-item" ng-repeat="user in users"><p class="title" ng-click="changeUser(user);">{{user.Email}}<p></p></li>
+            </ul>
+        </div>
+    </div>
+    <div class="col-sm-4 col-xs-12" ng-controller="adminDetailCtrl">
+        <div class="box" ng-hide="selectedUser == undefined">
+            <ul class="list-group">
+                <li class="list-group-item" ng-repeat="user in selectedUser"><p class="title">{{user}}<p></p></li>
+            </ul>
+        </div>
+    </div>
+</div>
